@@ -4,8 +4,8 @@
 
 from __future__ import print_function
 from base64 import b64encode
-from Crypto.Cipher import PKCS1_v1_5
-from Crypto.PublicKey import RSA
+from Cryptodome.Cipher import PKCS1_v1_5
+from Cryptodome.PublicKey import RSA
 import requests
 
 from utils import USERNAME, PASSWORD, APP_KEY, headers, getSign
@@ -42,7 +42,7 @@ def rsaEncrypt(password, key_tuple):
     # key_tuple = (_hash, key)
     key = RSA.importKey(key_tuple[1])
     cipher = PKCS1_v1_5.new(key)
-    return b64encode(cipher.encrypt(key_tuple[0] + password))
+    return b64encode(cipher.encrypt(key_tuple[0].decode() + password))
 
 def authInfo(s, access_token):
     params = {'access_token': access_token, 'appkey': APP_KEY}

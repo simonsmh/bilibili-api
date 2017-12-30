@@ -1,6 +1,6 @@
 # pylint: disable=I0011,C0103,C0111
 
-from urllib import urlencode
+from urllib.parse import urlencode
 from hashlib import md5
 
 # ACCESS_KEY = '' # Your access key.
@@ -23,9 +23,9 @@ APP_SECRET = '560c52ccd288fed045859ed18bffd973'
 headers = {'user-agent': 'Mozilla/5.0 BiliDroid/4.34.0 (bbcallen@gmail.com)'}
 
 def getSign(params):
-    items = params.items()
-    items.sort()
-    return md5(urlencode(items) + APP_SECRET).hexdigest()
+    items = sorted(params.items())
+    string = urlencode(items) + APP_SECRET
+    return md5(string.encode()).hexdigest()
 
 def autoLogin(logger, key_path):
     import blogin
